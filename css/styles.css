@@ -1,0 +1,316 @@
+/* Globales */
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; /* Reset para REMS - 62.5% = 10px de 16px*/
+}
+*, *::before, *:after{
+    box-sizing: inherit;
+}
+
+body { 
+    font-family: 'Lato', sans-serif;
+    font-size: 1.6rem;
+    line-height: 2;
+}
+
+img {
+    max-width: 100%;
+}
+
+.contenedor{
+    max-width: 120rem; /*Toma todo el espacio disponible mientras no pase de 1200px*/
+    margin: 0 auto 0 auto; /* Guarda los margenes arriba derecha abajo izquierda*/    
+}
+
+h1{
+    font-size: 3.8rem;
+}
+
+h2{
+    font-size: 3.4rem;
+}
+
+h3{
+    font-size: 3rem;
+}
+
+h4{
+    font-size: 2.6rem;
+}
+
+
+/* Utilidades*/
+.section{
+    margin-top: 2rem;
+    margin-bottom: 2 rem;
+}
+
+.fw300{
+    font-weight: 300;
+}
+
+.centrar-texto{
+    text-align: center;
+}
+
+.d-block{
+    display: block!important;
+}
+
+/*Botones*/
+.boton{
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.8rem;
+    padding: 1rem 3rem;
+    margin-top: 3rem;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.boton-amarillo{
+    background: #E08709;
+}
+
+
+.boton-verde{
+    background: #71B100;
+}
+
+/* Header */
+.site-header.inicio {
+    background: url(../img/header.jfif);
+    background-position: center center; /* El centro de la imagen es el centro del espacio*/
+    background-size: cover; /*Muestra toda la imagen en el espacio */
+    height: 100vh; /* vh mide la pantalla y ajusta la imagen con respecto a esta */
+    min-height: 60rem;
+}
+
+.contenido-header{
+    color: white;
+    padding-bottom: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contenido-header h1{
+    color: white;
+    padding-bottom: 2rem;
+    max-width: 60rem;
+    line-height: 1.8;
+}
+
+.barra {
+    display: flex; /*Herramienta Flexbox, ayuda a posicionar los elementos*/
+    justify-content: space-between; /*Permite que dos elementos estén posicionados: Uno a la derecha y otro a la izquierda*/
+    align-items: center;
+    padding-top: 3rem; /*Da espacio dentro del elemento*/
+}
+
+.navegacion a{
+    color: white;
+    text-decoration: none; /*Quita la linea de link*/
+    font-size: 1.8rem;
+    margin-right: 2rem;
+}
+
+.navegacion a:hover{ /*Color sobre el elemento donde está el ratón*/
+    color: #71B100;
+}
+
+.navegacion a:last-of-type{ /*Al último elemento de navegación a*/
+    margin: 0;
+}
+
+/*Iconos nosotros*/
+
+.iconos-nosotros{
+    display: flex;
+    justify-content:  space-between;
+}
+
+.icono {
+    flex-basis: calc(33.3% - 1rem);
+    text-align: center;
+}
+
+.icono h3{
+    text-transform: uppercase;
+}
+
+/*Anuncios*/
+
+.contenedor-anuncios{
+    display: flex;
+    justify-content:  space-between;
+}
+
+.anuncio{
+    flex-basis: calc(33.3% - 1rem);
+    border: 1px solid #B5B5B5;
+    background-color: #F5F5F5;
+
+}
+
+.contenido-anuncio  {
+    padding: 2rem; /*padding en todas las direcciones */ 
+}
+
+.contenido-anuncio h3, 
+.contenido-anuncio p {
+    margin: 0; /*padding en todas las direcciones */ 
+}
+
+.precio{
+    color: #71B100;
+    font-weight: 700;
+}
+
+.iconos-caracteristicas{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.iconos-caracteristicas li{
+    display: flex;
+}
+
+.iconos-caracteristicas li img{
+    margin-right: 2rem;
+}
+
+
+.ver-todas{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* CONCTACTO HOME*/
+.imagen-contacto{
+    background-image: url(../img/encuentra.jpg);
+    background-position: center center;
+    background-size: cover;
+    height: 40rem;
+    display: flex;
+    align-items: center;
+
+}
+
+.contenido-contacto{
+    flex: 1;
+    color: white;
+}
+
+.contenido-contacto p{ 
+    font-size: 1.8rem;
+}
+
+/*Sección inferior*/
+
+.seccion-inferior{
+    display: flex;
+    justify-content: space-between;
+}
+
+.seccion-inferior .blog{
+    flex-basis: 60%;
+}
+
+.seccion-inferior .testimoniales{
+    flex-basis: calc(40% - 2rem);
+}
+
+.entrada-blog{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.entrada-blog:last-of-type { /*El último elemento*/
+    margin-bottom: 0; /*Se le quita el margen*/
+}
+
+.entrada-blog .imagen{
+    flex-basis: 40%;
+}
+
+.entrada-blog .texto-entrada{
+    flex-basis: calc(60% - 3rem);
+}
+
+.texto-entrada a {
+    color: black;
+    text-decoration: none;
+}
+
+.texto-entrada h4 {
+    margin: 0;
+    line-height: 1.4; /*Interlineado*/
+}
+
+.texto-entrada h4::after { /*Pseudo elemento después de "h4"*/
+    content: '';
+    display: block;
+    width: 15rem;
+    height: .5rem;
+    background-color: #71B100;
+    margin-top: 1rem;
+}
+
+.texto-entrada span{
+    color: #E08709;
+}
+
+/*Testimoniales*/
+
+.testimonial{
+    background-color: #71B100;
+    font-size: 2.4rem;
+    padding: 2rem; /*Espacio adentro*/
+    color: white;
+    border-radius: 2rem;
+}
+
+.testimonial p {
+    text-align: right;
+}
+
+.testimonial blockquote::before { /*Pseudo elemento antes del elemento*/
+    content:'';
+    background-image: url(../img/comilla.svg);
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    left: -2rem;
+    
+}
+
+.testimonial blockquote{
+    position: relative;
+    padding-left: 5rem;
+    font-weight: 300;
+}
+
+/*FOOTER*/
+
+.site-footer {
+    background-color: #333333;
+    margin: 0;
+}
+
+.contenedor-footer {
+    padding: 3rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.copyright {
+    margin: 0;
+    color: white;
+}
