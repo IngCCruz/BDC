@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Balance</title>
+        <title>Reporte</title>
     </head>
     <body>
         <?php include 'conexion.php'; ?> 
@@ -33,6 +33,12 @@
             // Cerrar la conexión
             mysqli_close($link);
         ?>
+
+        <h1>¡¡NUEVO REGISTRO!!</h1>
+
+        <a href="inserta_reporte.php"> Insertar nuevo balance </a>
+        <br>        
+
 
         <br><br><br><br><br>
         <a href="index.php"> inicio </a>

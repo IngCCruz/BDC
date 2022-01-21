@@ -7,25 +7,13 @@
         <title>Barbacoa Don Cruz</title>
     </head>
     <body>
-        <?php 
-            echo '<p>Página Inicio</p>'; 
-            include 'conexion.php';
-        ?> 
-
-        <a href="cat_productos.php"> Catalogo productos </a>
+        <h1>Página Inicio</h1>
+        <a href="reporte.php"> Ver Reporte </a>
+        <br>        
+        <a href="ultima_horneada.php"> Ver gastos de última hornada </a>
         <br>
-        <a href="cat_tipotransaccion.php"> Catalogo transacciones </a>
+        <a href="precios_historicos.php"> Precios Historicos </a>
         <br>
-        <a href="balance.php"> Balance </a>
-
-        <p>Inserta transaccion</p>
-
-
-        <p>Inserta precio historico</p>
-
-
-        <p>Inserta balance</p>
-
-
+        <a href="productos.php"> Catalogo de productos necesarios </a>
     </body>
 </html>

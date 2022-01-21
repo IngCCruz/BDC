@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CATALOGO DE PRODUCTOS</title>
+        <title>Reporte</title>
     </head>
     <body>
         <?php include 'conexion.php'; ?> 
@@ -15,16 +15,16 @@
             mysqli_select_db($link,$database_conexion) or die('No se pudo seleccionar la base de datos');
 
             // Realizar una consulta MySQL
-            echo '<p>CATALOGO DE PRODUCTOS</p>';
-            echo '<p>Id | Grupo | Nombre</p>';
+            echo '<p>Balance</p>';
+            echo '<p>#Horneada | Fecha | Inversión | Gasto | Ingreso | Ganancia </p>';
             
-            $query = 'SELECT idProducto,Grupo,Nombre FROM cat_productos';
+            $query = 'SELECT Horneada,Fecha,Inversion,Gasto,Ingreso,Ganancia FROM balance';
             $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
 
             // Imprimir los resultados en HTML
             echo "<table>\n";
             while ($row = mysqli_fetch_array($result)) {
-                echo $row[0] . "&nbsp&nbsp&nbsp" .  $row[1] . "&nbsp&nbsp&nbsp" . $row[2] . "<br />";
+                echo $row[0] . "&nbsp&nbsp&nbsp" .  $row[1] . "&nbsp&nbsp&nbsp" . $row[2] . "&nbsp&nbsp&nbsp" .  $row[3 ] . "&nbsp&nbsp&nbsp" .  $row[4] . "&nbsp&nbsp&nbsp" .  $row[5] . "<br />";
             }
 
             // Liberar resultados
@@ -33,6 +33,12 @@
             // Cerrar la conexión
             mysqli_close($link);
         ?>
+
+        <h1>¡¡NUEVO REGISTRO!!</h1>
+
+        <a href="inserta_reporte.php"> Insertar nuevo balance </a>
+        <br>        
+
 
         <br><br><br><br><br>
         <a href="index.php"> inicio </a>
