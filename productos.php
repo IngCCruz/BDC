@@ -22,7 +22,7 @@
         ?>
 
         <table>
-            <th>Grupo</th><th>Nombre</th>
+            <th>Grupo</th><th>Nombre</th><th>Unidad</th>
             <form method="POST">
             <tr>
                 <td>
@@ -36,6 +36,7 @@
                     </select>
                 </td>
                 <td><input type="text" name="nombre"></td>
+                <td><input type="text" name="unidad"></td>
             </tr>
             <tr>
                 <td><input type="submit" name="submit" value="Insertar"></td>
@@ -52,10 +53,11 @@
             }else{
                 $grupo = $_POST["grupo"];            
                 $nombre = $_POST["nombre"];
+                $unidad = $_POST["unidad"];
 
                 // Insert
-                $query = 'INSERT INTO productos(id,grupo,nombre) 
-                VALUES ('.$id.',"'.$grupo.'","'.$nombre.'")';
+                $query = 'INSERT INTO productos(id,grupo,nombre,unidad) 
+                VALUES ('.$id.',"'.$grupo.'","'.$nombre.'","'.$unidad.'")';
 
                 $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
             }
