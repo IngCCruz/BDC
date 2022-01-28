@@ -1,49 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reporte</title>
-    </head>
-    <body>
-        <?php include 'conexion.php'; ?> 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precios Historicos</title>
+</head>
+<body>
+    <?php include 'conexion.php';?> 
 
-        <?php
-            // Conectando, seleccionando la base de datos
-            $link = mysqli_connect($hostname_conexion, $username_conexion, $password_conexion) or die('No se pudo conectar: ' . mysql_error());
-            mysqli_select_db($link,$database_conexion) or die('No se pudo seleccionar la base de datos');
+    <h2>Precios Historicos</h2>    
+    <br>
+    <h3>Selecciona producto: </h3>
 
-            // Realizar una consulta MySQL
-            echo '<p>Balance</p>';
-            echo '<p>#Horneada | Fecha | Inversión | Gasto | Ingreso | Ganancia </p>';
-            
-            $query = 'SELECT Horneada,Fecha,Inversion,Gasto,Ingreso,Ganancia FROM balance';
-            $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+    <?php
+        $result = mysqli_query($link,"SELECT id, grupo, nombre FROM productos") or die('Consulta fallida: ' . mysql_error());
+    ?>
 
-            // Imprimir los resultados en HTML
-            echo "<table>\n";
-            while ($row = mysqli_fetch_array($result)) {
-                echo $row[0] . "&nbsp&nbsp&nbsp" .  $row[1] . "&nbsp&nbsp&nbsp" . $row[2] . "&nbsp&nbsp&nbsp" .  $row[3 ] . "&nbsp&nbsp&nbsp" .  $row[4] . "&nbsp&nbsp&nbsp" .  $row[5] . "<br />";
-            }
+    <table>
+        <th>Producto</th>
+        <form method="POST">
+        <tr>
+            <td>
+                <select name="idProducto"> 
+                    <?php
+                        while ($fila = $result->fetch_assoc()):
+                            $id = $fila['id'];
+                            $grupo = $fila['grupo'];
+                            $nombre = $fila['nombre'];
+                            echo "<option value=$id>$id - $grupo - $nombre</option>";
+                        endwhile;
+                    ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="submit" value="Busca"></td>
+        </tr>
+        </form>
+    </table>
 
-            // Liberar resultados
-            mysqli_free_result($result);
+    <table>
+        <th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Unidad</th><th>Precio</th><th>Precio unitario</th>
 
-            // Cerrar la conexión
-            mysqli_close($link);
+        <?php 
+            if(isset($_POST["submit"]) && !empty($_POST["submit"])) {
+                $idProducto = $_POST["idProducto"];
+
+                $query = 'SELECT fecha,horneada,cantidad,unidad,precio,precio_u FROM productos_h WHERE idproducto = '.$idProducto.' ORDER BY fecha;';
+                $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+                while($row = mysqli_fetch_array($result)){
         ?>
+                
+        <tr>
+            <td><?php echo $row['fecha'] ?></td>
+            <td><?php echo $row['horneada'] ?></td>
+            <td><?php echo $row['cantidad'] ?></td>
+            <td><?php echo $row['unidad'] ?></td>
+            <td><?php echo $row['precio'] ?></td>
+            <td><?php echo $row['precio_u'] ?></td>
+        </tr>
+        <?php
+                }   
+            }
+        ?>
+    </table>
+    
+    
 
-        <h1>¡¡NUEVO REGISTRO!!</h1>
+    <h3>Insertar nuevo historico </h3>
 
-        <a href="inserta_reporte.php"> Insertar nuevo balance </a>
-        <br>        
+    <?php
+        $result = mysqli_query($link,"SELECT id,Grupo,Nombre FROM productos") or die('Consulta fallida: ' . mysql_error());
+    ?>
 
+    <table>
+        <th>Producto</th><th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Unidad</th><th>Precio</th><th>Precio unitario</th>
+        <form method="POST">
+        <tr>
+            <td>
+                <select name="idProducto"> 
+                    <?php
+                        while ($fila = $result->fetch_assoc()):
+                            $id = $fila['id'];
+                            $grupo = $fila['Grupo'];
+                            $nombre = $fila['Nombre'];
+                            echo "<option value=$id>$id - $grupo - $nombre</option>";
+                        endwhile;
+                    ?>
+                </select>
+            </td>
+            <td><input type="date" name="Fecha"></td>
+            <td><input type="number" name="Horneada"></td>
+            <td><input type="decimal" name="cantidad"></td>
+            <td><input type="text" name="unidad"></td>
+            <td><input type="decimal" name="precio"></td>
+            <td><input type="decimal" name="precio_u"></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" name="submit2" value="Insertar">                
+            </td>
+        </tr>
+        </form>
+    </table>
 
-        <br><br><br><br><br>
-        <a href="index.php"> inicio </a>
+    <?php 
+        if(isset($_POST["submit2"])) {
+            if(empty($_POST["Fecha"]) || empty($_POST["Horneada"]) || empty($_POST["cantidad"]) || empty($_POST["unidad"]) || empty($_POST["precio"]) || empty($_POST["precio_u"])){
+                echo "<p>FALTAN DATOS</p>";
+                echo "<meta http-equiv='refresh' content='1'>";
+            }else{
+                $idProducto = $_POST["idProducto"];
+                $Horneada = $_POST["Horneada"];
+                $Fecha = $_POST["Fecha"];
+                $cantidad = $_POST["cantidad"];
+                $unidad = $_POST["unidad"];
+                $Precio = $_POST["precio"];
+                $Precio_u = $_POST["precio_u"];
+    
+                // Insert
+                $query = 'INSERT INTO productos_h(idproducto,fecha,horneada,cantidad,unidad,precio,precio_u) 
+                VALUES ('.$idProducto.',"'.$Fecha.'",'.$Horneada.','.$cantidad.',"'.$unidad.'",'.$Precio.','.$Precio_u.')';
+            
+                $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+            }
+        }
+    ?>
 
+    <br><br><br><br><br>
+    <a href="precios_historicos.php"> referesh </a>
+    <br>
+    <a href="index.php"> inicio </a>
 
-
-    </body>
+</body>
 </html>
