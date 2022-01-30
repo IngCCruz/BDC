@@ -1,6 +1,6 @@
 <?php
     $hostname_conexion = "127.0.0.1";
-    $database_conexion = "bdc_desa";
+    $database_conexion = "bdc";
     $username_conexion = "cesar";
     $password_conexion = "202201-cesar";
 
