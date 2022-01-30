@@ -41,17 +41,31 @@
         </form>
     </table>
 
+
+
     <?php 
         if(isset($_POST["submit"]) && !empty($_POST["submit"])) {
             $idProducto = $_POST["idProducto"];
+        
+        $query = "SELECT nombre FROM productos WHERE id = $idProducto;";
+        $result2 = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+        $var = mysqli_fetch_row($result2);
+        $nombre = $var[0];
+        
+        echo "<br>" . $nombre;
+    ?>
+            <br>
+            <table>
+            <th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Precio</th><th>Precio unitario</th>
+    
+    <?php
+
 
             $query = 'SELECT fecha,horneada,cantidad,precio,precio_u FROM productos_h WHERE idproducto = '.$idProducto.' ORDER BY fecha;';
             $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
             while($row = mysqli_fetch_array($result)){
     ?>
 
-    <table>
-        <th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Precio</th><th>Precio unitario</th>
         <tr>
             <td><?php echo $row['fecha'] ?></td>
             <td><?php echo $row['horneada'] ?></td>
@@ -73,7 +87,7 @@
     ?>
 
     <table>
-        <th>Producto</th><th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Precio</th><th>Precio unitario</th>
+        <th>Producto</th><th>Fecha</th><th>Horneada</th><th>Cantidad</th><th>Importe</th>
         <form method="POST">
         <tr>
             <td>
@@ -93,7 +107,6 @@
             <td><input type="number" name="Horneada"></td>
             <td><input type="decimal" name="cantidad"></td>
             <td><input type="decimal" name="precio"></td>
-            <td><input type="decimal" name="precio_u"></td>
         </tr>
         <tr>
             <td>
@@ -105,7 +118,7 @@
 
     <?php 
         if(isset($_POST["submit2"])) {
-            if(empty($_POST["Fecha"]) || empty($_POST["Horneada"]) || empty($_POST["cantidad"]) || empty($_POST["precio"]) || empty($_POST["precio_u"])){
+            if(empty($_POST["Fecha"]) || empty($_POST["Horneada"]) || empty($_POST["cantidad"]) || empty($_POST["precio"])){
                 echo "<p>FALTAN DATOS</p>";
                 echo "<meta http-equiv='refresh' content='1'>";
             }else{
@@ -114,12 +127,14 @@
                 $Fecha = $_POST["Fecha"];
                 $cantidad = $_POST["cantidad"];
                 $Precio = $_POST["precio"];
-                $Precio_u = $_POST["precio_u"];
-    
+                $Precio_u = $Precio/$cantidad;
+
                 // Insert
                 $query = 'INSERT INTO productos_h(idproducto,fecha,horneada,cantidad,precio,precio_u) 
                 VALUES ('.$idProducto.',"'.$Fecha.'",'.$Horneada.','.$cantidad.','.$Precio.','.$Precio_u.')';
-            
+
+
+                // echo $query;
                 $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
             }
         }
