@@ -1,0 +1,9 @@
+BDC PROD
+
+conexion.php			74202c163af93df0943b2249c80be5ae
+index.php			7ab631d8c3b21b11e6c2f50ccb62259c
+precios_historicos.php		61b35eb89179625b37428b999f1cf5da
+productos.php			f2a650d9e6853818bf787b27aba1b938
+reporte.php			f034f35b188a8a708902a9c2d15e3a49
+ultima_horneada.php		aa6c5db7e6da7e745a51d2fbc2b29554
+

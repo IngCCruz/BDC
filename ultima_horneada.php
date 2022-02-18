@@ -48,12 +48,24 @@
             $idTransaccion = 1;
         }
         $result1 = mysqli_query($link,"SELECT id,grupo,nombre,unidad FROM productos") or die('Consulta fallida: ' . mysql_error());
-        $result2 = mysqli_query($link,"SELECT id,nombre FROM ttransacciones") or die('Consulta fallida: ' . mysql_error());            
+        $result2 = mysqli_query($link,"SELECT id,nombre FROM ttransacciones") or die('Consulta fallida: ' . mysql_error());
+        $result3 = mysqli_query($link,"SELECT max(horneada)+1 FROM reporte") or die('Consulta fallida: ' . mysql_error());
+        if (!$result3) {
+            echo 'No se pudo ejecutar la consulta: ' . mysql_error();
+            exit;
+        }
+        $var3 = mysqli_fetch_row($result3);
+        $horneada = $var3[0];
+        if(!$horneada){
+            $horneada = 1;
+        }
+
     ?>
     <table>
-        <th>Producto</th><th>Transacción</th><th>Horneada</th><th>Cantidad</th><th>Importe</th>
+        <th>Horneada</th><th>Producto</th><th>Transacción</th><th>Cantidad</th><th>Importe</th>
         <form method="POST">
         <tr>
+            <td><?php   echo $horneada; ?></td>
             <td>
                 <select name="idProducto"> 
                     <?php
@@ -78,7 +90,6 @@
                     ?>
                 </select>
             </td>
-            <td><input type="number" name="Horneada"></td>
             <td><input type="decimal" name="cantidad"></td>
             <td><input type="decimal" name="transaccion"></td>
         </tr>
@@ -89,18 +100,17 @@
     </table>
     <?php 
         if(isset($_POST["submit"])) {
-            if(empty($_POST["idProducto"]) || empty($_POST["idTipoTransaccion"]) || empty($_POST["Horneada"]) || empty($_POST["cantidad"]) || empty($_POST["transaccion"])){
+            if(empty($_POST["idProducto"]) || empty($_POST["idTipoTransaccion"]) || empty($_POST["cantidad"]) || empty($_POST["transaccion"])){
                 echo "<p>FALTAN DATOS</p>";
                 echo "<meta http-equiv='refresh' content='1'>";
             }else{
                 $idProducto = $_POST["idProducto"];
                 $idTipoTransaccion = $_POST["idTipoTransaccion"];
-                $Horneada = $_POST["Horneada"];
                 $cantidad = $_POST["cantidad"];
                 $transaccion = $_POST["transaccion"];
                 // Insert
                 $query = 'INSERT INTO ultima_horneada(id,idproducto,idttransaccion,horneada,cantidad,importe) 
-                VALUES ('.$idTransaccion.','.$idProducto.','.$idTipoTransaccion.','.$Horneada.','.$cantidad.','.$transaccion.')';
+                VALUES ('.$idTransaccion.','.$idProducto.','.$idTipoTransaccion.','.$horneada.','.$cantidad.','.$transaccion.')';
             
                 $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
                 echo "<meta http-equiv='refresh' content='0'>";
@@ -116,24 +126,31 @@
 
     <?php
         if(isset($_POST["submit2"]) && !empty($_POST["submit2"])) {
-            $query = 'SELECT uh.id, uh.idproducto,r.fecha, uh.horneada, uh.cantidad, uh.importe precio, uh.importe/cantidad precio_unitario FROM ultima_horneada uh JOIN reporte r ON uh.horneada = r.horneada';
+            $query = 'SELECT uh.id, uh.idproducto,r.fecha, uh.horneada, uh.cantidad, uh.importe precio, uh.importe/cantidad precio_unitario FROM ultima_horneada uh JOIN reporte r ON uh.horneada = r.horneada;';
             $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
-            $var = mysqli_fetch_row($result);
-            if(!$var){
+            $result_vacio = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+            $var2 = mysqli_fetch_row($result_vacio);
+
+            if(!$var2){
                 echo "<p>Ya no hay más registros de la última horneada<p>";
                 echo "<meta http-equiv='refresh' content='2'>";
-            }else{
+            }
 
+            while($var = mysqli_fetch_row($result)){
                 // Insert
                 $query = 'INSERT INTO productos_h(idproducto,fecha,horneada,cantidad,precio,precio_u) 
                 VALUES ('.$var[1].',"'.$var[2].'",'.$var[3].','.$var[4].','.$var[5].','.$var[6].');';
-                $result = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+                $result2 = mysqli_query($link,$query) or die('Consulta fallida: ' . mysql_error());
+
                 $drop_query='DELETE FROM ultima_horneada WHERE id='.$var[0].';';
-                $result = mysqli_query($link,$drop_query) or die('Consulta fallida: ' . mysql_error());
-                // echo $query;
-                echo "<meta http-equiv='refresh' content='0'>";
+                $result2 = mysqli_query($link,$drop_query) or die('Consulta fallida: ' . mysql_error());
+
             }
+
+        echo "<meta http-equiv='refresh' content='0'>";
+
         }
+
     ?> 
     <br><br><br><br><br>
     <a href="ultima_horneada.php"> referesh </a>
