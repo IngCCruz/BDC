@@ -35,6 +35,9 @@ if (!$validated) {
         <tr>
             <td>4. <a href="reporte.php">Reporte</a></td>
         </tr>
+        <tr>
+            <td>5. <a href="precios_historicos.php">Precios historicos</a></td>
+        </tr>
     </table>
 
 </body>
